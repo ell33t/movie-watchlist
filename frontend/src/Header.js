@@ -10,7 +10,7 @@ export default class Header extends Component {
     render() {
         return(
             <Fragment>
-                header
+                <input value={this.props.searchValue} name="searchValue" onChange={(e) => this.props.handleSearchChange(e) }/>
             </Fragment>
         );
     }
