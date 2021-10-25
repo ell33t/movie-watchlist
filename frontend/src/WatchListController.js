@@ -15,11 +15,7 @@ export default class WatchListController extends Component {
 
         this.state = {
             searchValue: "Star",
-            yearValueRange:
-                {
-                    low:1970,
-                    high:2015
-                },
+            yearValueRange: [1970, 2015],
             typeOfMovie:"movie",
             selectedMovieID: '1',
             results: data
@@ -78,6 +74,15 @@ export default class WatchListController extends Component {
         });
     };
 
+    handleRangeChange(values){
+        console.log(values);
+        // let data = this.handleSearchGet(this.state.searchValue, values, this.state.typeOfMovie)
+        this.setState({
+            yearValueRange: values,
+            // results: data,
+        })
+    }
+
     handleMovieSelect(index){
         this.setState({
             selectedMovieID: index,
@@ -89,7 +94,7 @@ export default class WatchListController extends Component {
         if(typeof this.state.data != 'undefined'){
             return(
                 <Fragment>
-                    <Header searchValue={this.state.searchValue} yearValueRange={this.state.yearValueRange} typeOfMovie={this.state.typeOfMovie} handleSearchChange={ this.handleFormChange.bind(this) }/>
+                    <Header searchValue={this.state.searchValue} yearValueRange={this.state.yearValueRange} typeOfMovie={this.state.typeOfMovie} handleSearchChange={ this.handleFormChange.bind(this) } handleRangeChange={ this.handleRangeChange.bind(this)}/>
                     <LeftColumn results={this.state.data} selectedMovieIndex={this.state.selectedMovieID} handleMovieSelect={ this.handleMovieSelect }/>
                     <RightColumn selectedMovie={this.state.data[this.state.selectedMovieID]}/>
                 </Fragment>
@@ -97,7 +102,7 @@ export default class WatchListController extends Component {
         } else {
             return(
                 <Fragment>
-                    <Header searchValue={this.state.searchValue} handleSearchChange={ this.handleFormChange.bind(this) }/>
+                    <Header searchValue={this.state.searchValue} yearValueRange={this.state.yearValueRange} typeOfMovie={this.state.typeOfMovie} handleSearchChange={ this.handleFormChange.bind(this) } handleRangeChange={ this.handleRangeChange.bind(this)}/>
                     <LeftColumn results={[]} selectedMovieIndex={null} handleMovieSelect={ this.handleMovieSelect }/>
                     <RightColumn selectedMovie={null}/>
                 </Fragment>
