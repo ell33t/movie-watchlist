@@ -31,7 +31,7 @@ export default class WatchListController extends Component {
 
 
     componentDidMount() {
-        this.handleSearchGet(this.state.searchValue);
+        this.handleSearchGet(this.state.searchValue, this.state.yearValueRange, this.state.typeOfMovie);
     }
 
     handleSearchGet(sValue, yValue, tValue){
@@ -39,30 +39,32 @@ export default class WatchListController extends Component {
         //API key ba891029
         let url = 'http://www.omdbapi.com/';
 
+        //first search term as a type is always included and never null
         if(typeof sValue != "undefined") {
-            url = url + '?s=' + sValue + '/';
+            url = url + '?s=' + sValue;
         }
 
         if(typeof tValue != "undefined"){  //?t=movie OR ?t=series OR ?t=episode
             if(tValue ==="all"){
-                url = url + '?t=movie/?t=series/?t=episode/'
+                url = url + '?&t=movie&t=series&t=episode'
             } else {
-                url = url + '?t=' + tValue + '/';
+                url = url + '?&t=' + tValue;
             }
         }
 
         if(typeof yValue != "undefined"){
-            // let data = {};
-            // //?y=1970
-            // for (var i = yValue[0]; i <= yValue[1]; i++) {
-            //     url = url + '?y=' + i + '/';
-            //
-            //     console.log(url);
-            //     data.add(data, (fetch(url + '&apikey=ba891029')
-            //         .then(response => response.json())));
-            // }
-            // this.setState({results: data});
-            // return;
+            //?y=1970
+            let urlCopy = url;
+            for (var i = yValue[0]; i <= yValue[1]; i++) {
+                urlCopy = url + '?&y=' + i;
+
+                console.log(urlCopy);
+                fetch(urlCopy + '&apikey=ba891029')
+                    .then(response => response.json())
+                    // HACK before considering pagnination and ranged results
+                    .then(data => this.setState({ results: data }));
+            }
+            return;
         }
 
         console.log(url);
@@ -72,6 +74,13 @@ export default class WatchListController extends Component {
             .then(data => this.setState({ results: data }))
         ;
     }
+
+    // checkForPagination(resultsCount){
+    //     if(resultsCount > 10){
+    //         console.log(resultsCount);
+    //         console.log("Pagination required");
+    //     }
+    // }
 
     handleFormChange = (event) => {
         const target = event.target;
@@ -113,7 +122,7 @@ export default class WatchListController extends Component {
                         typeOfMovie={this.state.typeOfMovie}
                         handleSearchChange={ this.handleFormChange.bind(this) }
                         handleRangeChange={ this.handleRangeChange.bind(this)}
-                    />
+                    /><div className="box">
                     <LeftColumn
                         results={this.state.data}
                         selectedMovieIndex={this.state.selectedMovieID}
@@ -121,15 +130,16 @@ export default class WatchListController extends Component {
                     />
                     <RightColumn
                         selectedMovie={this.state.data[this.state.selectedMovieID]}
-                    />
+                    /></div>
                 </Fragment>
             );
         } else {
             return(
                 <Fragment>
                     <Header searchValue={this.state.searchValue} yearValueRange={this.state.yearValueRange} typeOfMovie={this.state.typeOfMovie} handleSearchChange={ this.handleFormChange.bind(this) } handleRangeChange={ this.handleRangeChange.bind(this)}/>
-                    <LeftColumn results={[]} selectedMovieIndex={null} handleMovieSelect={ this.handleMovieSelect }/>
-                    <RightColumn selectedMovie={null}/>
+                    <div className="box">
+                        <LeftColumn results={[]} selectedMovieIndex={null} handleMovieSelect={ this.handleMovieSelect }/>
+                        <RightColumn selectedMovie={null}/></div>
                 </Fragment>
             );
         }

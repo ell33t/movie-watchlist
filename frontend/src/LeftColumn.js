@@ -1,5 +1,5 @@
 // NPM MODULES
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 
 export default class LeftColumn extends Component {
     constructor(props) {
@@ -9,9 +9,14 @@ export default class LeftColumn extends Component {
 
     render() {
         return(
-            <Fragment>
-                left
-            </Fragment>
+            <div className='left-container'>
+                <span className='results-count'> ### Results </span>
+                <div className='movie-card'>
+                    <img src="" alt='something'/>
+                    <span className="movie-title">Movie Title</span>
+                    <span className="movie-date">Movie date</span>
+                </div>
+            </div>
         );
     }
 }

@@ -1,5 +1,7 @@
-body {
-
+html,
+body, #root {
+  height: 100%;
+  width:100%;
 }
 
 .black {
@@ -9,4 +11,75 @@ body {
 .grey {
   color: #212121;
   font-weight: lighter;
+}
+
+.top-container{
+  width:100%;
+  background-color: #666666;
+  /*height:2rem;*/
+}
+
+.option-search{
+  margin:2rem;
+  float:right;
+  display:inline-flex;
+}
+
+.range-search{
+  margin:2rem;
+  float:right;
+  display:inline-flex;
+  width:20%;
+}
+
+.input-search{
+  margin:2rem;
+  /*float:left;*/
+  display:inline-flex;
+}
+
+.box{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-content: stretch;
+  align-items: flex-start;
+  height: calc(100vh - 6rem);
+}
+
+.left-container{
+  order: 0;
+  flex: 3 1 auto;
+  align-self: stretch;
+  overflow: auto;
+}
+
+span.results-count{
+  margin:2rem;
+  font-size: 1rem;
+  color: #666666;
+}
+
+div.movie-card{
+  position: relative;
+  width:100%;
+  border-bottom:1px solid #c4c4c4;
+}
+
+span.movie-title{
+
+}
+
+span.movie-date{
+
+}
+
+.right-container{
+  order: 0;
+  flex: 5 1 auto;
+  align-self: stretch;
+  padding-top: 2rem;
+  padding-left: 2rem;
+  border-left: 1px solid #c4c4c4;
 }

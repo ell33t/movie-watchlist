@@ -1,5 +1,5 @@
 // NPM MODULES
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Range } from 'react-range';
 
 import IconSearch from './assets/icons8-search.svg';
@@ -29,44 +29,10 @@ export default class Header extends Component {
     render() {
 
         return(
-            <Fragment>
+            <div className="top-container">
                 <div className="input-search">
                     <img src={IconSearch} className="Icon-Search" alt="Search Icon" />
                     <input value={this.props.searchValue} name="searchValue" onChange={(e) => this.props.handleSearchChange(e) }/>
-                </div>
-                <div className="range-search">
-                    <Range
-                        step={1}
-                        min={1950}
-                        max={2022}
-                        values={this.state.values}
-                        // onChange={(values) => this.setState({ values })}
-                        onChange={(values) => this.handleRangeChange(values)}
-                        renderTrack={({ props, children }) => (
-                            <div
-                                {...props}
-                                style={{
-                                    ...props.style,
-                                    height: '6px',
-                                    width: '100%',
-                                    backgroundColor: '#ccc'
-                                }}
-                            >
-                                {children}
-                            </div>
-                        )}
-                        renderThumb={({ props }) => (
-                            <div
-                                {...props}
-                                style={{
-                                    ...props.style,
-                                    height: '42px',
-                                    width: '42px',
-                                    backgroundColor: '#999'
-                                }}
-                            />
-                        )}
-                    />
                 </div>
                 <div className="option-search">
                     <form /*onChange={this.props.handleSearchChange}*/>
@@ -88,7 +54,43 @@ export default class Header extends Component {
                         <label htmlFor="episode">Episodes</label>
                     </form>
                 </div>
-            </Fragment>
+                <div className="range-search">
+                    <Range
+                        step={1}
+                        min={1950}
+                        max={2022}
+                        values={this.state.values}
+                        // onChange={(values) => this.setState({ values })}
+                        onChange={(values) => this.handleRangeChange(values)}
+                        renderTrack={({ props, children }) => (
+                            <div
+                                {...props}
+                                style={{
+                                    ...props.style,
+                                    height: '6px',
+                                    width: '100%',
+                                    borderRadius:'10px',
+                                    backgroundColor: '#fff'
+                                }}
+                            >
+                                {children}
+                            </div>
+                        )}
+                        renderThumb={({ props }) => (
+                            <div
+                                {...props}
+                                style={{
+                                    ...props.style,
+                                    height: '14px',
+                                    width: '14px',
+                                    borderRadius: '10px',
+                                    backgroundColor: '#ccc'
+                                }}
+                            />
+                        )}
+                    />
+                </div>
+            </div>
         );
     }
 }
