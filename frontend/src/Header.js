@@ -69,7 +69,24 @@ export default class Header extends Component {
                     />
                 </div>
                 <div className="option-search">
-
+                    <form /*onChange={this.props.handleSearchChange}*/>
+                        <input type="radio" id="all" name="typeOfMovie" value="all"
+                               checked={this.props.typeOfMovie === 'all'}
+                               onChange={this.props.handleSearchChange}/>
+                        <label htmlFor="all">Any</label>
+                        <input type="radio" id="movie" name="typeOfMovie" value="movie"
+                               checked={this.props.typeOfMovie === 'movie'}
+                               onChange={this.props.handleSearchChange}/>
+                        <label htmlFor="movie">Movies</label>
+                        <input type="radio" id="series" name="typeOfMovie" value="series"
+                               checked={this.props.typeOfMovie === 'series'}
+                               onChange={this.props.handleSearchChange}/>
+                        <label htmlFor="series">Series</label>
+                        <input type="radio" id="episode" name="typeOfMovie" value="episode"
+                               checked={this.props.typeOfMovie === 'episode'}
+                               onChange={this.props.handleSearchChange}/>
+                        <label htmlFor="episode">Episodes</label>
+                    </form>
                 </div>
             </Fragment>
         );

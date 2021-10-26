@@ -37,27 +37,40 @@ export default class WatchListController extends Component {
     handleSearchGet(sValue, yValue, tValue){
         // Simple GET request using fetch
         //API key ba891029
-        let url = 'http://www.omdbapi.com/'
+        let url = 'http://www.omdbapi.com/';
+
         if(typeof sValue != "undefined") {
             url = url + '?s=' + sValue + '/';
         }
 
+        if(typeof tValue != "undefined"){  //?t=movie OR ?t=series OR ?t=episode
+            if(tValue ==="all"){
+                url = url + '?t=movie/?t=series/?t=episode/'
+            } else {
+                url = url + '?t=' + tValue + '/';
+            }
+        }
+
         if(typeof yValue != "undefined"){
-            //?y=1970
-            url = url + '?y=' + yValue;
+            // let data = {};
+            // //?y=1970
+            // for (var i = yValue[0]; i <= yValue[1]; i++) {
+            //     url = url + '?y=' + i + '/';
+            //
+            //     console.log(url);
+            //     data.add(data, (fetch(url + '&apikey=ba891029')
+            //         .then(response => response.json())));
+            // }
+            // this.setState({results: data});
+            // return;
         }
 
-        if(typeof tValue != "undefined"){
-            //?t=movie
-            //?t=series
-            //?t=episode
-            url = url + '?t=' + tValue;
-        }
+        console.log(url);
 
-        return fetch(url + '&apikey=ba891029')
+        fetch(url + '&apikey=ba891029')
             .then(response => response.json())
             .then(data => this.setState({ results: data }))
-            ;
+        ;
     }
 
     handleFormChange = (event) => {
@@ -67,10 +80,10 @@ export default class WatchListController extends Component {
 
         console.log('Value is:', value);
         // console.log('Name is:', name);
-        let data = this.handleSearchGet(value);
-        return this.setState({
+        this.setState({
             [name]: value,
-            results: data
+        }, () => {
+            this.handleSearchGet(this.state.searchValue, this.state.yearValueRange, this.state.typeOfMovie);
         });
     };
 
@@ -94,9 +107,21 @@ export default class WatchListController extends Component {
         if(typeof this.state.data != 'undefined'){
             return(
                 <Fragment>
-                    <Header searchValue={this.state.searchValue} yearValueRange={this.state.yearValueRange} typeOfMovie={this.state.typeOfMovie} handleSearchChange={ this.handleFormChange.bind(this) } handleRangeChange={ this.handleRangeChange.bind(this)}/>
-                    <LeftColumn results={this.state.data} selectedMovieIndex={this.state.selectedMovieID} handleMovieSelect={ this.handleMovieSelect }/>
-                    <RightColumn selectedMovie={this.state.data[this.state.selectedMovieID]}/>
+                    <Header
+                        searchValue={this.state.searchValue}
+                        yearValueRange={this.state.yearValueRange}
+                        typeOfMovie={this.state.typeOfMovie}
+                        handleSearchChange={ this.handleFormChange.bind(this) }
+                        handleRangeChange={ this.handleRangeChange.bind(this)}
+                    />
+                    <LeftColumn
+                        results={this.state.data}
+                        selectedMovieIndex={this.state.selectedMovieID}
+                        handleMovieSelect={ this.handleMovieSelect }
+                    />
+                    <RightColumn
+                        selectedMovie={this.state.data[this.state.selectedMovieID]}
+                    />
                 </Fragment>
             );
         } else {
