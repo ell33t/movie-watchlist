@@ -1,5 +1,6 @@
 // NPM MODULES
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import MovieCard from "./MovieCard";
 
 export default class LeftColumn extends Component {
     constructor(props) {
@@ -7,16 +8,29 @@ export default class LeftColumn extends Component {
         this.state = {}
     }
 
-    render() {
+    generateMovieCards(item){
         return(
-            <div className='left-container'>
-                <span className='results-count'> ### Results </span>
-                <div className='movie-card'>
-                    <img src="" alt='something'/>
-                    <span className="movie-title">Movie Title</span>
-                    <span className="movie-date">Movie date</span>
-                </div>
-            </div>
+            <MovieCard
+                Title={item.Title}
+                Poster={item.Poster}
+                Year={item.Year}
+            />
         );
+    }
+
+    render() {
+        console.log(this.props);
+        if(typeof this.props.results != "undefined") {
+            return (
+                <div className='left-container'>
+                    <span className='results-count'> ### Results </span>
+                    {this.props.results.map(item => this.generateMovieCards(item))}
+                </div>
+            );
+        } else {
+            return(
+                <Fragment/>
+            )
+        }
     }
 }

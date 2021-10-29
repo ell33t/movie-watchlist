@@ -12,13 +12,14 @@ export default class WatchListController extends Component {
         //API key ba891029
         let data = fetch('http://www.omdbapi.com/?apikey=ba891029')
             .then(response => response.json());
+        // todo: add a catch for if the promise fails
 
         this.state = {
             searchValue: "Star",
             yearValueRange: [1970, 2015],
             typeOfMovie:"movie",
-            selectedMovieID: '1',
-            results: data
+            selectedMovieID: '0',
+            results: data.Search
             // selectedMovieObject: {
             //     Poster: "https://m.media-amazon.com/images/M/MV5BYmU1NDRjNDgtMzhiMi00NjZmLTg5NGItZDNiZjU5NTU4OTE0XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg",
             //     Title: "Star Wars: Episode V - The Empire Strikes Back",
@@ -62,7 +63,7 @@ export default class WatchListController extends Component {
                 fetch(urlCopy + '&apikey=ba891029')
                     .then(response => response.json())
                     // HACK before considering pagnination and ranged results
-                    .then(data => this.setState({ results: data }));
+                    .then(data => this.setState({ results: data.Search }));
             }
             return;
         }
@@ -71,7 +72,7 @@ export default class WatchListController extends Component {
 
         fetch(url + '&apikey=ba891029')
             .then(response => response.json())
-            .then(data => this.setState({ results: data }))
+            .then(data => this.setState({ results: data.Search }))
         ;
     }
 
@@ -112,7 +113,7 @@ export default class WatchListController extends Component {
     }
 
     render() {
-        console.log(this.state.results);
+        // console.log(this.state.results);
         if(typeof this.state.data != 'undefined'){
             return(
                 <Fragment>
@@ -124,12 +125,12 @@ export default class WatchListController extends Component {
                         handleRangeChange={ this.handleRangeChange.bind(this)}
                     /><div className="box">
                     <LeftColumn
-                        results={this.state.data}
+                        results={this.state.results}
                         selectedMovieIndex={this.state.selectedMovieID}
                         handleMovieSelect={ this.handleMovieSelect }
                     />
                     <RightColumn
-                        selectedMovie={this.state.data[this.state.selectedMovieID]}
+                        selectedMovie={this.state.results[this.state.selectedMovieID]}
                     /></div>
                 </Fragment>
             );
@@ -138,7 +139,7 @@ export default class WatchListController extends Component {
                 <Fragment>
                     <Header searchValue={this.state.searchValue} yearValueRange={this.state.yearValueRange} typeOfMovie={this.state.typeOfMovie} handleSearchChange={ this.handleFormChange.bind(this) } handleRangeChange={ this.handleRangeChange.bind(this)}/>
                     <div className="box">
-                        <LeftColumn results={[]} selectedMovieIndex={null} handleMovieSelect={ this.handleMovieSelect }/>
+                        <LeftColumn results={this.state.results} selectedMovieIndex={null} handleMovieSelect={ this.handleMovieSelect }/>
                         <RightColumn selectedMovie={null}/></div>
                 </Fragment>
             );

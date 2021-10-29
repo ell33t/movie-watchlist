@@ -53,6 +53,7 @@ body, #root {
   flex: 3 1 auto;
   align-self: stretch;
   overflow: auto;
+  max-width:40%;
 }
 
 span.results-count{
@@ -65,14 +66,43 @@ div.movie-card{
   position: relative;
   width:100%;
   border-bottom:1px solid #c4c4c4;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-content: flex-start;
+  align-items: flex-start;
+}
+
+div.movie-text{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: stretch;
+  align-items: flex-start;
+
+  order: 0;
+  flex: 1 1 auto;
+  align-self: auto;
 }
 
 span.movie-title{
+  order: 0;
+  flex: 1 1 auto;
+  align-self: stretch;
 
+  margin-top: 2.5rem;
+  font-size: 1em;
+  margin-bottom: 0.5rem;
 }
 
 span.movie-date{
+  order: 0;
+  flex: 1 1 auto;
+  align-self: stretch;
 
+  font-size:0.8em;
 }
 
 .right-container{
