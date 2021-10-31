@@ -8,7 +8,10 @@ export default class MovieCard extends Component {
     }
 
     render() {
-        console.log(this.props);
+        if(this.props.isSelected){
+            console.log('yes, this movie: ', this.props);
+        }
+        // console.log(this.props);
         if(typeof this.props.Title !== "undefined") {
             const posterStyle =
                 {"backgroundImage":'url(' + this.props.Poster + ')',
@@ -27,7 +30,10 @@ export default class MovieCard extends Component {
             //style={{marginRight: spacing + 'em'}}
 
             return (
-                <div className='movie-card'>
+                <div
+                    className='movie-card'
+                    onClick={() => this.props.handleSelect(this.props.index, this.props.item)}
+                >
                     <div style={posterStyle}>&nbsp;
                     </div>
                     <div className="movie-text">

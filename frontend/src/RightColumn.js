@@ -8,6 +8,7 @@ export default class RightColumn extends Component {
     }
 
     render() {
+        console.log(this.props.selectedMovie);
         return(
             <div className="right-container">
                 right

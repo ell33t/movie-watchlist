@@ -8,25 +8,13 @@ export default class WatchListController extends Component {
     constructor(props) {
         super(props);
 
-        // Simple GET request using fetch
-        //API key ba891029
-        let data = fetch('http://www.omdbapi.com/?apikey=ba891029')
-            .then(response => response.json());
-        // todo: add a catch for if the promise fails
-
         this.state = {
-            searchValue: "Star",
+            searchValue: "Star wars",
             yearValueRange: [1970, 2015],
             typeOfMovie:"movie",
-            selectedMovieID: '0',
-            results: data.Search
-            // selectedMovieObject: {
-            //     Poster: "https://m.media-amazon.com/images/M/MV5BYmU1NDRjNDgtMzhiMi00NjZmLTg5NGItZDNiZjU5NTU4OTE0XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg",
-            //     Title: "Star Wars: Episode V - The Empire Strikes Back",
-            //     Type: "movie",
-            //     Year: "1980",
-            //     imdbID: "tt0080684",
-            // }
+            selectedMovie: null,
+            selectedMovieID: 0,
+            results: [],
         }
     }
 
@@ -42,7 +30,7 @@ export default class WatchListController extends Component {
 
         //first search term as a type is always included and never null
         if(typeof sValue != "undefined") {
-            url = url + '?s=' + sValue;
+            url = url + '?s=' + sValue.replace(/\s+/g, '+');
         }
 
         if(typeof tValue != "undefined"){  //?t=movie OR ?t=series OR ?t=episode
@@ -59,29 +47,34 @@ export default class WatchListController extends Component {
             for (var i = yValue[0]; i <= yValue[1]; i++) {
                 urlCopy = url + '?&y=' + i;
 
-                console.log(urlCopy);
                 fetch(urlCopy + '&apikey=ba891029')
                     .then(response => response.json())
-                    // HACK before considering pagnination and ranged results
-                    .then(data => this.setState({ results: data.Search }));
+                    // hmmm not sure how to fix this or why this might cause problems
+                    // eslint-disable-next-line no-loop-func
+                    .then(data => {
+                        if(typeof data != "undefined"){
+                            if(typeof data.totalResults != "undefined"){
+                                //check for pagination
+                                //handle pagination
+                                if(data.totalResults > 10){
+                                    let pageCount = Math.ceil(data.totalResults/10);
+                                    for(var j=1; j<=pageCount; j++) {
+                                        fetch(urlCopy + '?page='+ 2 + '&apikey=ba891029')
+                                            .then(response => response.json())
+                                            .then(data => this.setState(prevState => ({ results: [...prevState.results, data.Search]})));
+                                    }
+                                }
+                            }
+                        }
+                    });
+
+                fetch(urlCopy + '&apikey=ba891029')
+                    .then(response => response.json())
+                    .then(data => this.setState(prevState => ({ results: [...prevState.results, data.Search]})));
             }
             return;
         }
-
-        console.log(url);
-
-        fetch(url + '&apikey=ba891029')
-            .then(response => response.json())
-            .then(data => this.setState({ results: data.Search }))
-        ;
     }
-
-    // checkForPagination(resultsCount){
-    //     if(resultsCount > 10){
-    //         console.log(resultsCount);
-    //         console.log("Pagination required");
-    //     }
-    // }
 
     handleFormChange = (event) => {
         const target = event.target;
@@ -99,21 +92,40 @@ export default class WatchListController extends Component {
 
     handleRangeChange(values){
         console.log(values);
-        // let data = this.handleSearchGet(this.state.searchValue, values, this.state.typeOfMovie)
+        this.handleSearchGet(this.state.searchValue, values, this.state.typeOfMovie)
         this.setState({
             yearValueRange: values,
-            // results: data,
         })
     }
 
-    handleMovieSelect(index){
+    handleMovieSelect(index, movieObject){
         this.setState({
-            selectedMovieID: index,
+            selectedMovie: movieObject,
+            selectedMovieID:index,
         });
     }
 
     render() {
-        // console.log(this.state.results);
+
+        //Utility function that checks for duplicated results due to pagination logic
+        // const findDuplicates = (arr) => {
+        //     let sorted_arr = arr.slice().sort(); // You can define the comparing function here.
+        //     // JS by default uses a crappy string compare.
+        //     // (we use slice to clone the array so the
+        //     // original array won't be modified)
+        //     let results = [];
+        //     for (let i = 0; i < sorted_arr.length - 1; i++) {
+        //         if (sorted_arr[i + 1] == sorted_arr[i]) {
+        //             results.push(sorted_arr[i]);
+        //         }
+        //     }
+        //     return results;
+        // }
+        //
+        // let duplicatedArray = this.state.results;
+        // console.log(findDuplicates(duplicatedArray).length>0?'uh oh theres an error in the pagination!':'clean results!');
+
+        console.log(this.state.results);
         if(typeof this.state.data != 'undefined'){
             return(
                 <Fragment>
@@ -127,10 +139,11 @@ export default class WatchListController extends Component {
                     <LeftColumn
                         results={this.state.results}
                         selectedMovieIndex={this.state.selectedMovieID}
-                        handleMovieSelect={ this.handleMovieSelect }
+                        handleMovieSelect={ this.handleMovieSelect.bind(this) }
                     />
                     <RightColumn
-                        selectedMovie={this.state.results[this.state.selectedMovieID]}
+                        selectedMovie={this.state.selectedMovie}
+                        selectedMovieIndex={this.state.selectedMovieID}
                     /></div>
                 </Fragment>
             );
