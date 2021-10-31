@@ -16,13 +16,60 @@ body, #root {
 .top-container{
   width:100%;
   background-color: #666666;
-  /*height:2rem;*/
+  color: #FFFFFF;
+  height:8rem;
 }
 
 .option-search{
   margin:2rem;
   float:right;
   display:inline-flex;
+  flex-direction: column;
+}
+form {
+  padding-top:0.5rem;
+}
+
+label {
+  padding-left: 0.5rem;
+  padding-right: 1rem;
+}
+
+input[type='radio']:after {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 0.5rem;
+  /*top: -2px;*/
+  /*left: -1px;*/
+  position: relative;
+  background-color: #666666;
+  content: '';
+  display: inline-block;
+  visibility: visible;
+  border: 2px solid #666666;
+  outline: 2px solid white;
+}
+
+input[type='radio']:checked:after {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 0.5rem;
+  /*top: -2px;*/
+  /*left: -1px;*/
+  position: relative;
+  background-color: #ffffff;
+  content: '';
+  display: inline-block;
+  visibility: visible;
+  border: 2px solid #666666;
+  outline: 2px solid white;
+}
+
+.options-label{
+  padding: 0.5rem;
+  padding-left: 0;
+  padding-bottom: 0;
+  text-transform: uppercase;
 }
 
 .range-search{
@@ -30,12 +77,41 @@ body, #root {
   float:right;
   display:inline-flex;
   width:20%;
+  flex-direction: column;
+}
+
+.range-controller-items{
+  display:inline-flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.range-label{
+  padding: 0.5rem;
+  padding-bottom: 0;
+  text-transform: uppercase;
+}
+
+.range-values{
+  padding: 0.5rem;
 }
 
 .input-search{
-  margin:2rem;
+  margin:2.5rem;
   /*float:left;*/
   display:inline-flex;
+  max-width:25%;
+}
+
+input[type=text] {
+  background-color: #666666;
+  color: white;
+  font-size: 2rem;
+  padding-left: 2rem;
+  border: 0;
+}
+
+.icon-search{
 }
 
 .box{
@@ -61,6 +137,7 @@ span.results-count{
   margin:2rem;
   font-size: 1rem;
   color: #666666;
+  text-transform: uppercase;
 }
 
 div.movie-card{

@@ -54,6 +54,7 @@ export default class LeftColumn extends Component {
         if(typeof this.props.results != "undefined") {
             return (
                 <div className='left-container'>
+                    <br/>
                     <span className='results-count'> {total} Results </span>
                     {this.props.results.map(list => this.generatePageOfResults(list))}
                 </div>

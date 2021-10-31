@@ -31,10 +31,11 @@ export default class Header extends Component {
         return(
             <div className="top-container">
                 <div className="input-search">
-                    <img src={IconSearch} className="Icon-Search" alt="Search Icon" />
-                    <input value={this.props.searchValue} name="searchValue" onChange={(e) => this.props.handleSearchChange(e) }/>
+                    <img src={IconSearch} className="icon-search" alt="Search Icon" width="30px"/>
+                    <input type="text" value={this.props.searchValue} name="searchValue" onChange={(e) => this.props.handleSearchChange(e) }/>
                 </div>
                 <div className="option-search">
+                    <span className='options-label'>Type</span>
                     <form /*onChange={this.props.handleSearchChange}*/>
                         <input type="radio" id="all" name="typeOfMovie" value="all"
                                checked={this.props.typeOfMovie === 'all'}
@@ -55,6 +56,9 @@ export default class Header extends Component {
                     </form>
                 </div>
                 <div className="range-search">
+                    <span className='range-label'>Year</span>
+                    <div className='range-controller-items'>
+                    <span className='range-values'>{this.props.yearValueRange[0]}</span>
                     <Range
                         step={1}
                         min={1950}
@@ -89,6 +93,8 @@ export default class Header extends Component {
                             />
                         )}
                     />
+                    <span className='range-values'>{this.props.yearValueRange[1]}</span>
+                    </div>
                 </div>
             </div>
         );
