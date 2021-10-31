@@ -39,8 +39,8 @@ export default class RightColumn extends Component {
                         <span>Star Wars</span>
                         <p>
                             <span className='guideline-rating'>PG</span>
-                            <span>Date</span>
-                            <span>Genre, Genre, Genre</span>
+                            <span>Date ･</span>
+                            <span>Genre, Genre, Genre ･</span>
                             <span>Duration</span>
                         </p>
                         <span>Actors Names, And Different People</span>
