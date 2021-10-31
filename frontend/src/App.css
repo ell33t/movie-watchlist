@@ -121,7 +121,8 @@ input[type=text] {
   justify-content: flex-start;
   align-content: stretch;
   align-items: flex-start;
-  height: calc(100vh - 6rem);
+  max-height: calc(100% - 8rem);
+  overflow:hidden;
 }
 
 .left-container{
@@ -190,10 +191,74 @@ span.movie-date{
 }
 
 .right-container{
+  max-width: 60%;
   order: 0;
   flex: 5 1 auto;
   align-self: stretch;
   padding-top: 2rem;
   padding-left: 2rem;
   border-left: 1px solid #c4c4c4;
+  max-height: calc(100vh - 8rem);
+  overflow:hidden;
+}
+
+.column{
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.row {
+  display: flex;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 1.5rem;
+}
+
+.middle-row{
+  display: flex;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 2rem;
+}
+
+.last-row{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: flex-end;
+}
+
+.button{
+  position: absolute;
+  top: 10rem;
+  right: 1rem;
+}
+
+.last-row-column{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.last-row-column:nth-child(1){
+  border-right:1px solid #ccc;
+  justify-content: center;
+  padding-left:2rem;
+  padding-right:2rem;
+}
+
+.last-row-column:nth-child(2){
+  border-right:1px solid #ccc;
+  justify-content: center;
+  padding-left:2rem;
+  padding-right:2rem;
+}
+
+.last-row-column:nth-child(3){
+  justify-content: center;
+  padding-left:2rem;
+  padding-right:2rem;
 }
