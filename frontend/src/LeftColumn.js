@@ -31,13 +31,30 @@ export default class LeftColumn extends Component {
             );
         }
     }
+    // countResults(total, totalList){
+    //     if(typeof totalList != "undefined") {
+    //         console.log(total, totalList.length);
+    //         total = total + parseInt(totalList.length);
+    //         console.log(total);
+    //     }
+    //
+    //     return total;
+    // }
 
     render() {
         // console.log(this.props);
+        let total = 0;
+        // let resultsTotal = this.props.results.map(list => this.countResults(total, list));
+        this.props.results.forEach(list => {
+            if(typeof list != "undefined") {
+                total = total + parseInt(list.length);
+            }
+        });
+
         if(typeof this.props.results != "undefined") {
             return (
                 <div className='left-container'>
-                    <span className='results-count'> ### Results </span>
+                    <span className='results-count'> {total} Results </span>
                     {this.props.results.map(list => this.generatePageOfResults(list))}
                 </div>
             );

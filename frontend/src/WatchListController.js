@@ -9,7 +9,7 @@ export default class WatchListController extends Component {
         super(props);
 
         this.state = {
-            searchValue: "Star wars",
+            searchValue: "Star wars Ho",
             yearValueRange: [1970, 2015],
             typeOfMovie:"movie",
             selectedMovie: null,
