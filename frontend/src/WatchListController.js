@@ -9,11 +9,10 @@ export default class WatchListController extends Component {
         super(props);
 
         this.state = {
-            searchValue: "Star wars Ho",
+            searchValue: "Star wars",
             yearValueRange: [1970, 2015],
             typeOfMovie:"movie",
-            selectedMovie: null,
-            selectedMovieID: 0,
+            selectedMovieID: 1,
             results: [],
         }
     }
@@ -53,15 +52,27 @@ export default class WatchListController extends Component {
                     // eslint-disable-next-line no-loop-func
                     .then(data => {
                         if(typeof data != "undefined"){
+                            console.log(data);
                             if(typeof data.totalResults != "undefined"){
                                 //check for pagination
                                 //handle pagination
                                 if(data.totalResults > 10){
-                                    let pageCount = Math.ceil(data.totalResults/10);
+                                    //todo: link to the load more results function
+                                    // let pageCount = Math.ceil(data.totalResults/10);
+                                    let pageCount = 1;
                                     for(var j=1; j<=pageCount; j++) {
-                                        fetch(urlCopy + '?page='+ 2 + '&apikey=ba891029')
+                                        fetch(urlCopy + '?page='+ pageCount + '&apikey=ba891029')
                                             .then(response => response.json())
-                                            .then(data => this.setState(prevState => ({ results: [...prevState.results, data.Search]})));
+                                            .then(data => {
+                                                this.setState(prevState => ({results: [...prevState.results, data.Search]}));
+                                                return data;
+                                            })
+                                            .then( data => {
+                                                //todo: clarify assumption that the first result will be automatically displayed on the right hand side.
+                                                //check for undefined values
+                                                //assign first undefined value as the selected state
+                                                // console.log('HERE: ', this.state.results);
+                                            });
                                     }
                                 }
                             }
@@ -98,10 +109,9 @@ export default class WatchListController extends Component {
         })
     }
 
-    handleMovieSelect(index, movieObject){
+    handleMovieSelect(id){
         this.setState({
-            selectedMovie: movieObject,
-            selectedMovieID:index,
+            selectedMovieID: id,
         });
     }
 
@@ -138,12 +148,12 @@ export default class WatchListController extends Component {
                     /><div className="box">
                     <LeftColumn
                         results={this.state.results}
-                        selectedMovieIndex={this.state.selectedMovieID}
+                        selectedMovieID={this.state.selectedMovieID}
                         handleMovieSelect={ this.handleMovieSelect.bind(this) }
                     />
                     <RightColumn
-                        selectedMovie={this.state.selectedMovie}
-                        selectedMovieIndex={this.state.selectedMovieID}
+                        key={this.state.selectedMovieID}
+                        selectedMovieID={this.state.selectedMovieID}
                     /></div>
                 </Fragment>
             );
@@ -152,8 +162,15 @@ export default class WatchListController extends Component {
                 <Fragment>
                     <Header searchValue={this.state.searchValue} yearValueRange={this.state.yearValueRange} typeOfMovie={this.state.typeOfMovie} handleSearchChange={ this.handleFormChange.bind(this) } handleRangeChange={ this.handleRangeChange.bind(this)}/>
                     <div className="box">
-                        <LeftColumn results={this.state.results} selectedMovieIndex={null} handleMovieSelect={ this.handleMovieSelect }/>
-                        <RightColumn selectedMovie={null}/></div>
+                        <LeftColumn
+                            results={this.state.results}
+                            selectedMovieID={this.state.selectedMovieID}
+                            handleMovieSelect={ this.handleMovieSelect.bind(this) }/>
+                        <RightColumn
+                            key={this.state.selectedMovieID}
+                            selectedMovieID={this.state.selectedMovieID}
+                        />
+                    </div>
                 </Fragment>
             );
         }

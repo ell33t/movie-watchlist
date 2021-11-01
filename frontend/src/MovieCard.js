@@ -7,6 +7,11 @@ export default class MovieCard extends Component {
         this.state = {}
     }
 
+    handleMovieSelect(){
+        // console.log(this.props.item.imdbID);
+        this.props.handleSelect(this.props.item.imdbID);
+    }
+
     render() {
         if(this.props.isSelected){
             console.log('yes, this movie: ', this.props);
@@ -32,7 +37,7 @@ export default class MovieCard extends Component {
             return (
                 <div
                     className='movie-card'
-                    onClick={() => this.props.handleSelect(this.props.index, this.props.item)}
+                    onClick={e => this.handleMovieSelect()}
                 >
                     <div style={posterStyle}>&nbsp;
                     </div>

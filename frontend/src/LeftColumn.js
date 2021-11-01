@@ -22,7 +22,7 @@ export default class LeftColumn extends Component {
                     Title={item.Title}
                     Poster={item.Poster}
                     Year={item.Year}
-                    isSelected={this.props.selectedMovieIndex === item.imdbID}
+                    isSelected={this.props.selectedMovieID === item.imdbID}
                     handleSelect={this.props.handleMovieSelect.bind(this)}
                     imdbID={item.imdbID}
                     // index={this.props.results.findIndex(data => data.imdbID === item.imdbID)}
@@ -43,15 +43,16 @@ export default class LeftColumn extends Component {
 
     render() {
         // console.log(this.props);
-        let total = 0;
-        // let resultsTotal = this.props.results.map(list => this.countResults(total, list));
-        this.props.results.forEach(list => {
-            if(typeof list != "undefined") {
-                total = total + parseInt(list.length);
-            }
-        });
 
         if(typeof this.props.results != "undefined") {
+            let total = 0;
+            // let resultsTotal = this.props.results.map(list => this.countResults(total, list));
+            this.props.results.forEach(list => {
+                if(typeof list != "undefined") {
+                    total = total + parseInt(list.length);
+                }
+            });
+
             return (
                 <div className='left-container'>
                     <br/>
