@@ -4,7 +4,14 @@ import React, {Component, Fragment} from 'react';
 export default class MovieCard extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            isOnWatchList: false,
+        }
+
+        // Retrieve the object from storage
+        var watchList = localStorage.getItem("watchList");
+        var watchListData = JSON.parse(watchList);
+
     }
 
     handleMovieSelect(){
@@ -13,8 +20,9 @@ export default class MovieCard extends Component {
     }
 
     render() {
+        let cardClassName = 'movie-card';
         if(this.props.isSelected){
-            console.log('yes, this movie: ', this.props);
+            cardClassName = 'movie-card-selected'
         }
         // console.log(this.props);
         if(typeof this.props.Title !== "undefined") {
@@ -36,7 +44,7 @@ export default class MovieCard extends Component {
 
             return (
                 <div
-                    className='movie-card'
+                    className={cardClassName}
                     onClick={e => this.handleMovieSelect()}
                 >
                     <div style={posterStyle}>&nbsp;

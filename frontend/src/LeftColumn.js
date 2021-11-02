@@ -31,15 +31,6 @@ export default class LeftColumn extends Component {
             );
         }
     }
-    // countResults(total, totalList){
-    //     if(typeof totalList != "undefined") {
-    //         console.log(total, totalList.length);
-    //         total = total + parseInt(totalList.length);
-    //         console.log(total);
-    //     }
-    //
-    //     return total;
-    // }
 
     render() {
         // console.log(this.props);
@@ -55,8 +46,7 @@ export default class LeftColumn extends Component {
 
             return (
                 <div className='left-container'>
-                    <br/>
-                    <span className='results-count'> {total} Results </span>
+                    <div className='results-count'><span> {total} Results </span></div>
                     {this.props.results.map(list => this.generatePageOfResults(list))}
                 </div>
             );

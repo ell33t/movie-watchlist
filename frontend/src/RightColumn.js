@@ -8,9 +8,18 @@ import IconSearch from "./assets/icons8-search.svg";
 export default class RightColumn extends Component {
     constructor(props) {
         super(props);
+
+        let isOnWatchList = false;
+        let storedWatchlist = JSON.parse(localStorage.getItem("Watchlist"));
+        let watchList = storedWatchlist || [];
+        if(watchList.indexOf(props.selectedMovieID) !== -1) {
+            isOnWatchList = true;
+        }
+
         this.state = {
             selectedMovieID:props.selectedMovieID,
             selectedMovie:null,
+            isOnWatchList,
         }
     }
 
@@ -22,6 +31,24 @@ export default class RightColumn extends Component {
             // .then(data => {
             //     console.log(data);
             // })
+    }
+
+    addToWatchList(id){
+        let storedWatchlist = JSON.parse(localStorage.getItem("Watchlist"));
+        let watchList = storedWatchlist || [];
+        //check if id is already on watchlist
+        if(watchList.indexOf(id) !== -1){
+            watchList.splice(watchList.indexOf(id), 1);
+            this.setState({
+                isOnWatchList: false,
+            });
+        } else {
+            watchList.push(id);
+            this.setState({
+                isOnWatchList: true,
+            });
+        }
+        localStorage.setItem("Watchlist", JSON.stringify(watchList));
     }
 
     render() {
@@ -46,15 +73,18 @@ export default class RightColumn extends Component {
                 }
             // };
 
+            let isOnWatchListIcon = (<img src={IconBookmark} className="icon-bookmark" alt="Watch List Icon" height="20px"/>);
+            let isNotOnWatchListIcon = (<img src={SolidIconBookmark} className="icon-bookmark" alt="Watch List Icon" height="20px"/>);
+
             return (
-                <div className="right-container" key={this.state.selectedMovieID}>
+                <div className="right-container" key={this.props.selectedMovieID}>
                     <div className='row'>
                         <div className='column'>
                             <div style={posterStyle}>&nbsp;</div>
                         </div>
                         <div className='column'>
-                            <div className='button'>
-                                <img src={IconBookmark} className="icon-bookmark" alt="Watch List Icon" height="20px"/>
+                            <div className='button' onClick={() => this.addToWatchList(this.props.selectedMovieID)}>
+                                {this.state.isOnWatchList?isNotOnWatchListIcon:isOnWatchListIcon}
                                 Watch List
                             </div>
                             <h1>{this.state.selectedMovie.Title}</h1>
@@ -71,18 +101,26 @@ export default class RightColumn extends Component {
                         {this.state.selectedMovie.Plot}
                     </div>
                     <div className='last-row'>
-                        <div className='last-row-column'>
-                            <span>{this.state.selectedMovie.Ratings[0].Value}</span><br/>
-                            <span>{this.state.selectedMovie.Ratings[0].Source}</span>
-                        </div>
-                        <div className='last-row-column'>
-                            <span>{this.state.selectedMovie.Ratings[1].Value}</span><br/>
-                            <span>{this.state.selectedMovie.Ratings[1].Source}</span>
-                        </div>
-                        <div className='last-row-column'>
-                            <span>{this.state.selectedMovie.Ratings[2].Value}</span><br/>
-                            <span>{this.state.selectedMovie.Ratings[2].Source}</span>
-                        </div>
+                        {this.state.selectedMovie.Ratings.forEach(item => {
+                            return(
+                                <div className='last-row-column'>
+                                    <span>{item.Value}</span><br/>
+                                    <span>{item.Source}</span>
+                                </div>
+                            );
+                        })}
+                        {/*<div className='last-row-column'>*/}
+                        {/*    <span>{this.state.selectedMovie.Ratings[0].Value}</span><br/>*/}
+                        {/*    <span>{this.state.selectedMovie.Ratings[0].Source}</span>*/}
+                        {/*</div>*/}
+                        {/*<div className='last-row-column'>*/}
+                        {/*    <span>{this.state.selectedMovie.Ratings[1].Value}</span><br/>*/}
+                        {/*    <span>{this.state.selectedMovie.Ratings[1].Source}</span>*/}
+                        {/*</div>*/}
+                        {/*<div className='last-row-column'>*/}
+                        {/*    <span>{this.state.selectedMovie.Ratings[2].Value}</span><br/>*/}
+                        {/*    <span>{this.state.selectedMovie.Ratings[2].Source}</span>*/}
+                        {/*</div>*/}
                     </div>
                 </div>
             );
