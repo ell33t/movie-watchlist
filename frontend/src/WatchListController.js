@@ -24,14 +24,16 @@ export default class WatchListController extends Component {
 
     handleSearchGet(sValue, yValue, tValue){
         // Simple GET request using fetch
-        //API key ba891029
+        // API key ba891029
+        // Use the utility function inside render() to check for duplicate returned values.
         let url = 'http://www.omdbapi.com/';
 
-        //first search term as a type is always included and never null
+        //first search term is always included and never null
         if(typeof sValue != "undefined") {
             url = url + '?s=' + sValue.replace(/\s+/g, '+');
         }
 
+        //second search term as a type is always included and never null
         if(typeof tValue != "undefined"){  //?t=movie OR ?t=series OR ?t=episode
             if(tValue ==="all"){
                 url = url + '?&t=movie&t=series&t=episode'
@@ -40,6 +42,7 @@ export default class WatchListController extends Component {
             }
         }
 
+        // third search term is always included and never null
         if(typeof yValue != "undefined"){
             //?y=1970
             let urlCopy = url;
@@ -103,10 +106,31 @@ export default class WatchListController extends Component {
 
     handleRangeChange(values){
         console.log(values);
-        this.handleSearchGet(this.state.searchValue, values, this.state.typeOfMovie)
-        this.setState({
-            yearValueRange: values,
-        })
+        // check if the range is included in the already fetched results
+        if(this.state.yearValueRange[0] <= values[0] && this.state.yearValueRange[1] >= values[1]){
+            //refine the existing results list instead of re-fetching
+            let lowerDifference = values[0] - this.state.yearValueRange[0];
+            let upperDifference = this.state.yearValueRange[1] - values[1];
+
+            let data = [...this.state.results];
+            for(var i=0;i<lowerDifference;i++){
+                data.shift();
+            }
+            for(var j=0; j<upperDifference;j++){
+                data.pop();
+            }
+
+            this.setState({
+                yearValueRange: values,
+                results: [...data]
+            });
+
+        } else {
+            this.handleSearchGet(this.state.searchValue, values, this.state.typeOfMovie)
+            this.setState({
+                yearValueRange: values,
+            });
+        }
     }
 
     handleMovieSelect(id){
