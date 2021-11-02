@@ -55,7 +55,6 @@ export default class WatchListController extends Component {
                     // eslint-disable-next-line no-loop-func
                     .then(data => {
                         if(typeof data != "undefined"){
-                            console.log(data);
                             if(typeof data.totalResults != "undefined"){
                                 //check for pagination
                                 //handle pagination
@@ -95,8 +94,6 @@ export default class WatchListController extends Component {
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
 
-        console.log('Value is:', value);
-        // console.log('Name is:', name);
         this.setState({
             [name]: value,
         }, () => {
@@ -105,7 +102,6 @@ export default class WatchListController extends Component {
     };
 
     handleRangeChange(values){
-        console.log(values);
         // check if the range is included in the already fetched results
         if(this.state.yearValueRange[0] <= values[0] && this.state.yearValueRange[1] >= values[1]){
             //refine the existing results list instead of re-fetching
@@ -159,7 +155,6 @@ export default class WatchListController extends Component {
         // let duplicatedArray = this.state.results;
         // console.log(findDuplicates(duplicatedArray).length>0?'uh oh theres an error in the pagination!':'clean results!');
 
-        console.log(this.state.results);
         if(typeof this.state.data != 'undefined'){
             return(
                 <Fragment>

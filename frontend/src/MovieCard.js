@@ -4,18 +4,10 @@ import React, {Component, Fragment} from 'react';
 export default class MovieCard extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            isOnWatchList: false,
-        }
-
-        // Retrieve the object from storage
-        var watchList = localStorage.getItem("watchList");
-        var watchListData = JSON.parse(watchList);
-
+        this.state = {}
     }
 
     handleMovieSelect(){
-        // console.log(this.props.item.imdbID);
         this.props.handleSelect(this.props.item.imdbID);
     }
 
@@ -24,7 +16,6 @@ export default class MovieCard extends Component {
         if(this.props.isSelected){
             cardClassName = 'movie-card-selected'
         }
-        // console.log(this.props);
         if(typeof this.props.Title !== "undefined") {
             const posterStyle =
                 {"backgroundImage":'url(' + this.props.Poster + ')',

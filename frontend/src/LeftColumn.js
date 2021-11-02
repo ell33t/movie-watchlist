@@ -33,8 +33,6 @@ export default class LeftColumn extends Component {
     }
 
     render() {
-        // console.log(this.props);
-
         if(typeof this.props.results != "undefined") {
             let total = 0;
             // let resultsTotal = this.props.results.map(list => this.countResults(total, list));

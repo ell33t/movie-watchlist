@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 
 import IconBookmark from './assets/icons8-bookmark.svg';
 import SolidIconBookmark from './assets/icons8-bookmark-solid.svg'
-import IconSearch from "./assets/icons8-search.svg";
 
 export default class RightColumn extends Component {
     constructor(props) {
@@ -24,7 +23,6 @@ export default class RightColumn extends Component {
     }
 
     componentDidMount() {
-        console.log('yep');
         fetch('http://www.omdbapi.com/?i='+ this.props.selectedMovieID + '&apikey=ba891029')
             .then(response => response.json())
             .then(data => this.setState(prevState => ({ selectedMovie: data})));
@@ -51,10 +49,21 @@ export default class RightColumn extends Component {
         localStorage.setItem("Watchlist", JSON.stringify(watchList));
     }
 
+    renderRatings(list){
+        let ratings = list.map(item => {
+            return (
+                <div className='last-row-column'>
+                    <span>{item.Value}</span><br/>
+                    <span>{item.Source}</span>
+                </div>
+            );
+        })
+
+        return ratings;
+    }
+
     render() {
         if(this.state.selectedMovieID !== 1 && this.state.selectedMovie != null){
-            console.log("Here: ", this.props) ;
-            console.log("Here: ", this.state.selectedMovie) ;
             let posterStyle = null;
             // if(typeof this.props.Title !== "undefined") {
             posterStyle =
@@ -75,6 +84,9 @@ export default class RightColumn extends Component {
 
             let isOnWatchListIcon = (<img src={IconBookmark} className="icon-bookmark" alt="Watch List Icon" height="20px"/>);
             let isNotOnWatchListIcon = (<img src={SolidIconBookmark} className="icon-bookmark" alt="Watch List Icon" height="20px"/>);
+
+            console.log(this);
+            let ratings = this.renderRatings(this.state.selectedMovie.Ratings);
 
             return (
                 <div className="right-container" key={this.props.selectedMovieID}>
@@ -101,31 +113,11 @@ export default class RightColumn extends Component {
                         {this.state.selectedMovie.Plot}
                     </div>
                     <div className='last-row'>
-                        {this.state.selectedMovie.Ratings.forEach(item => {
-                            return(
-                                <div className='last-row-column'>
-                                    <span>{item.Value}</span><br/>
-                                    <span>{item.Source}</span>
-                                </div>
-                            );
-                        })}
-                        {/*<div className='last-row-column'>*/}
-                        {/*    <span>{this.state.selectedMovie.Ratings[0].Value}</span><br/>*/}
-                        {/*    <span>{this.state.selectedMovie.Ratings[0].Source}</span>*/}
-                        {/*</div>*/}
-                        {/*<div className='last-row-column'>*/}
-                        {/*    <span>{this.state.selectedMovie.Ratings[1].Value}</span><br/>*/}
-                        {/*    <span>{this.state.selectedMovie.Ratings[1].Source}</span>*/}
-                        {/*</div>*/}
-                        {/*<div className='last-row-column'>*/}
-                        {/*    <span>{this.state.selectedMovie.Ratings[2].Value}</span><br/>*/}
-                        {/*    <span>{this.state.selectedMovie.Ratings[2].Source}</span>*/}
-                        {/*</div>*/}
+                        {ratings}
                     </div>
                 </div>
             );
         } else {
-            console.log("Here: ", this.props) ;
             return (
                 <div className="right-container" key={this.state.selectedMovieID}>
                     &nbsp;

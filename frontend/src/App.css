@@ -1,7 +1,18 @@
-html,
-body, #root {
-  height: 100%;
-  width:100%;
+@media (max-width:1130px) {
+/*nothing with screen size bigger than 960px*/
+  html,
+  body, #root {
+    display: none;
+  }
+}
+
+@media (min-width:960px) {
+/*nothing with screen size smaller than 960px*/
+  html,
+  body, #root {
+    height: 100%;
+    width:100%;
+  }
 }
 
 .black {
@@ -280,21 +291,8 @@ span.movie-date{
   justify-content: space-evenly;
 }
 
-.last-row-column:nth-child(1){
+.last-row-column:not(:last-child){
   border-right:1px solid #ccc;
-  justify-content: center;
-  padding-left:2rem;
-  padding-right:2rem;
-}
-
-.last-row-column:nth-child(2){
-  border-right:1px solid #ccc;
-  justify-content: center;
-  padding-left:2rem;
-  padding-right:2rem;
-}
-
-.last-row-column:nth-child(3){
   justify-content: center;
   padding-left:2rem;
   padding-right:2rem;
