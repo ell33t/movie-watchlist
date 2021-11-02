@@ -52,7 +52,7 @@ export default class RightColumn extends Component {
     renderRatings(list){
         let ratings = list.map(item => {
             return (
-                <div className='last-row-column'>
+                <div className='last-row-column' key={item.Source}>
                     <span>{item.Value}</span><br/>
                     <span>{item.Source}</span>
                 </div>
@@ -85,7 +85,6 @@ export default class RightColumn extends Component {
             let isOnWatchListIcon = (<img src={IconBookmark} className="icon-bookmark" alt="Watch List Icon" height="20px"/>);
             let isNotOnWatchListIcon = (<img src={SolidIconBookmark} className="icon-bookmark" alt="Watch List Icon" height="20px"/>);
 
-            console.log(this);
             let ratings = this.renderRatings(this.state.selectedMovie.Ratings);
 
             return (
